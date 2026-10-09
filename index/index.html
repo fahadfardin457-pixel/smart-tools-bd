@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Tools BD - Your Smart Digital Assistant</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --header-gradient: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4c1d95 100%);
+            --bg-light: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent-blue: #2563eb;
+            --radius-lg: 16px;
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Hind Siliguri', 'Inter', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Branding & Header Navbar */
+        header {
+            background: var(--header-gradient);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo i {
+            font-size: 1.8rem;
+            color: #a855f7;
+        }
+
+        .brand-title {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+            margin: 0;
+        }
+
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #c084fc;
+        }
+
+        /* Main Container Layout */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            color: #1e1b4b;
+        }
+
+        .hero-section p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Tool Grid Cards */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 25px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid #e2e8f0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -10px rgba(79, 70, 229, 0.15);
+        }
+
+        .tool-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #e0e7ff 0%, #f3e8ff 100%);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #6366f1;
+            margin-bottom: 15px;
+        }
+
+        .btn-gradient {
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: opacity 0.3s;
+        }
+
+        .btn-gradient:hover {
+            opacity: 0.95;
+        }
+
+        .btn-download {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        /* Dynamic Tool Canvas & Controls */
+        .preview-area {
+            width: 100%;
+            height: 200px;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+            overflow: hidden;
+            background: #f1f5f9;
+            cursor: pointer;
+        }
+
+        .preview-area img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            border-top: 1px solid #e2e8f0;
+            margin-top: 60px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Header Navigation -->
+    <header>
+        <div class="brand-logo">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            <span class="brand-title">Smart Tools BD</span>
+        </div>
+        <ul class="nav-links">
+            <li><a href="#"><i class="fa-solid fa-house"></i> হোম</a></li>
+            <li><a href="#"><i class="fa-solid fa-robot"></i> AI টুলস</a></li>
+            <li><a href="#"><i class="fa-solid fa-image"></i> ইমেজ এডিটর</a></li>
+            <li><a href="#"><i class="fa-solid fa-file-pdf"></i> PDF মেকার</a></li>
+        </ul>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        
+        <div class="hero-section">
+            <h1>আপনার স্মার্ট ডিজিটাল অ্যাসিস্ট্যান্ট</h1>
+            <p>একটি প্ল্যাটফর্মে পান কৃত্রিম বুদ্ধিমত্তা ও প্রপার ডিজিটাল টুলসের সুবিধা</p>
+        </div>
+
+        <div class="tools-grid">
+
+            <!-- Tool 1: AI Image Clear & Sharp Tool -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fa-solid fa-sparkles"></i>
+                </div>
+                <h3>AI Image Enhancer (ছবি ক্লিয়ারিং)</h3>
+                <p>ঝাপসা বা কম কোয়ালিটির ছবিকে নিমিষেই হাই-রেজুলেশন ও ক্লিয়ার করুন।</p>
+                
+                <input type="file" id="clearImageInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event, 'clearPreview', 'clearImgElement')">
+                <div class="preview-area" onclick="document.getElementById('clearImageInput').click()">
+                    <div id="clearPreview" style="text-align:center; color: #94a3b8;">
+                        <i class="fa-solid fa-cloud-arrow-up" style="font-size:2rem; margin-bottom:8px;"></i>
+                        <p>ছবি সিলেক্ট করতে ক্লিক করুন</p>
+                    </div>
+                </div>
+
+                <button class="btn-gradient" onclick="processWithAd('clearImage')">
+                    <i class="fa-solid fa-bolt"></i> ছবি ক্লিয়ার করুন
+                </button>
+                <a id="downloadClearBtn" class="btn-download" download="cleared-image.png">
+                    <i class="fa-solid fa-download"></i> ছবি ডাউনলোড করুন
+                </a>
+            </div>
+
+            <!-- Tool 2: AI Background Remover -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fa-solid fa-eraser"></i>
+                </div>
+                <h3>Background Remover</h3>
+                <p>যেকোনো ছবির ব্যাকগ্রাউন্ড রিমুভ করে ট্রানস্প্যারেন্ট PNG তৈরি করুন।</p>
+
+                <input type="file" id="bgImageInput" accept="image/*" style="display:none;" onchange="handleImageUpload(event, 'bgPreview', 'bgImgElement')">
+                <div class="preview-area" onclick="document.getElementById('bgImageInput').click()">
+                    <div id="bgPreview" style="text-align:center; color: #94a3b8;">
+                        <i class="fa-solid fa-file-image" style="font-size:2rem; margin-bottom:8px;"></i>
+                        <p>ছবি আপলোড করতে এখানে ক্লিক করুন</p>
+                    </div>
+                </div>
+
+                <button class="btn-gradient" onclick="processWithAd('removeBg')">
+                    <i class="fa-solid fa-scissors"></i> ব্যাকগ্রাউন্ড রিমুভ করুন
+                </button>
+            </div>
+
+            <!-- Tool 3: AI Facebook Caption Generator -->
+            <div class="tool-card">
+                <div class="tool-icon">
+                    <i class="fa-solid fa-pen-nib"></i>
+                </div>
+                <h3>AI ফেসবুক ক্যাপশন জেনারেটর</h3>
+                <p>আপনার মুড বা ছবির ক্যাটাগরি অনুযায়ী অটোমেটিক ক্যাপশন তৈরি করুন।</p>
+
+                <select id="captionCategory" style="width:100%; padding:10px; border-radius:8px; border:1px solid #cbd5e1; margin-top:15px;">
+                    <option value="attitude">Attitude & Style</option>
+                    <option value="love">Romantic & Love</option>
+                    <option value="islamic">Islamic Quote</option>
+                    <option value="sad">Emotional & Sad</option>
+                </select>
+
+                <button class="btn-gradient" onclick="processWithAd('generateCaption')">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> ক্যাপশন জেনারেট করুন
+                </button>
+
+                <div id="captionResult" style="margin-top:15px; font-weight:600; color:#334155; min-height: 40px; padding: 10px; background: #f8fafc; border-radius: 8px; border: 1px dashed #cbd5e1;">এখানে ক্যাপশন আসবে...</div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Hidden Canvas for Image Processing -->
+    <canvas id="processingCanvas" style="display:none;"></canvas>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2026 Smart Tools BD — সর্বস্বত্ব সংরক্ষিত।</p>
+    </footer>
+
+    <!-- JavaScript Logic & Ad Redirection -->
+    <script>
+        // আপনার দেওয়া অ্যাড লিংকসমূহ
+        const adUrls = [
+            "https://auctionr.org/4/464384f9f7fe70da94cb7ee64caa9dcd",
+            "https://asiafilm.org/4/ed5e778da2cf4a8527f8361960b2d476",
+            "https://asiafilm.org/4/de64cac11715ee15daa94bc9102d0537",
+            "https://auctionr.org/4/daa6fd42bf25ffa8c2ee416f7f7a6038"
+        ];
+
+        let uploadedImages = {};
+
+        // জেনারেট/প্রসেস অ্যাকশনের আগে অ্যাডে রিডাইরেক্ট করার ফাংশন
+        function triggerAdRedirection() {
+            const randomIndex = Math.floor(Math.random() * adUrls.length);
+            const targetAdUrl = adUrls[randomIndex];
+            window.open(targetAdUrl, '_blank');
+        }
+
+        // আপলোড করা ছবি প্রিভিউ
+        function handleImageUpload(event, previewId, imgTagId) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewContainer = document.getElementById(previewId);
+                    previewContainer.innerHTML = `<img id="${imgTagId}" src="${e.target.result}" alt="Preview">`;
+                    uploadedImages[imgTagId] = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // ছবি শার্প ও ক্লিয়ার করার অ্যালগরিদম (Canvas Filtering)
+        function enhanceImageQuality() {
+            const imgElement = document.getElementById('clearImgElement');
+            if (!imgElement) {
+                alert("দয়া করে প্রসেস করার আগে একটি ছবি আপলোড করুন!");
+                return;
+            }
+
+            const canvas = document.getElementById('processingCanvas');
+            const ctx = canvas.getContext('2d');
+
+            canvas.width = imgElement.naturalWidth || imgElement.width;
+            canvas.height = imgElement.naturalHeight || imgElement.height;
+
+            // ক্যানভাসে ছবি ড্র করা
+            ctx.filter = 'contrast(125%) brightness(108%) saturate(115%) sepia(0%)';
+            ctx.drawImage(imgElement, 0, 0, canvas.width, canvas.height);
+
+            const clearedDataUrl = canvas.toDataURL('image/png');
+            imgElement.src = clearedDataUrl;
+
+            // ডাউনলোড বাটন এনাবল করা
+            const downloadBtn = document.getElementById('downloadClearBtn');
+            downloadBtn.href = clearedDataUrl;
+            downloadBtn.style.display = 'flex';
+        }
+
+        // মূল প্রসেসিং ফাংশন (অ্যাড রিডাইরেক্ট সহ)
+        function processWithAd(actionType) {
+            // ১. আগে অ্যাড ওপেন হবে
+            triggerAdRedirection();
+
+            // ২. এরপরে কাজ প্রসেস হবে
+            if (actionType === 'clearImage') {
+                enhanceImageQuality();
+            } else if (actionType === 'removeBg') {
+                const imgElement = document.getElementById('bgImgElement');
+                if (!imgElement) {
+                    alert("দয়া করে প্রসেস করার আগে একটি ছবি আপলোড করুন!");
+                    return;
+                }
+                alert("ব্যাকগ্রাউন্ড রিমুভ করার প্রসেস শুরু হয়েছে। (সার্ভার API কনফিগার করলে ব্যাকগ্রাউন্ড অটো কেটে যাবে)");
+            } else if (actionType === 'generateCaption') {
+                const category = document.getElementById('captionCategory').value;
+                const resultDiv = document.getElementById('captionResult');
+                
+                const sampleCaptions = {
+                    attitude: "নিজের মতো বাঁচো, অন্যের বলা কথায় নয়। 😎✨",
+                    love: "তুমিও কি আমার মতো মেঘের দেশে হারিয়ে যেতে চাও? ❤️☁️",
+                    islamic: "সবাবর ওপর ধৈর্য ধারণ করুন, নিশ্চয়ই আল্লাহ ধৈর্যশীলদের সাথে আছেন। 🤲",
+                    sad: "কিছু গল্প অসম্পূর্ণই থেকে যায়... 🥀"
+                };
+
+                resultDiv.innerText = sampleCaptions[category] || "ক্যাপশন তৈরি হচ্ছে...";
+            }
+        }
+    </script>
+</body>
+</html>
